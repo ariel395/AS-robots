@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Interactive robots for events and brand activations by Arcade Strange." />
+  <title>Arcade Strange | Interactive Robots for Events</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #050505;
+      --panel: rgba(255, 255, 255, 0.055);
+      --panel-strong: rgba(255, 255, 255, 0.10);
+      --text: #ffffff;
+      --muted: #cfcfcf;
+      --pink: #f20587;
+      --green: #7ee21b;
+      --line: rgba(255, 255, 255, 0.16);
+      --shadow: 0 24px 80px rgba(0, 0, 0, 0.42);
+      --radius: 30px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      font-family: Inter, Arial, sans-serif;
+      background:
+        radial-gradient(circle at 15% 8%, rgba(242, 5, 135, 0.25), transparent 34%),
+        radial-gradient(circle at 88% 18%, rgba(126, 226, 27, 0.22), transparent 30%),
+        linear-gradient(180deg, #090909 0%, #000000 100%);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px);
+      background-size: 54px 54px;
+      mask-image: linear-gradient(to bottom, black, transparent 85%);
+    }
+
+    a { color: inherit; }
+
+    .container {
+      width: min(1180px, calc(100% - 36px));
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 24px 0;
+    }
+
+    .logo {
+      width: 190px;
+      max-width: 48vw;
+      display: block;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 22px;
+      align-items: center;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .nav-links a { text-decoration: none; }
+    .nav-links a:hover { color: var(--green); }
+
+    .hero {
+      min-height: 78vh;
+      display: grid;
+      place-items: center;
+      padding: 80px 0 64px;
+      text-align: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 16px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255,255,255,0.055);
+      color: var(--green);
+      text-transform: uppercase;
+      font-size: 13px;
+      font-weight: 900;
+      letter-spacing: 0.12em;
+      animation: fadeUp 0.7s ease both;
+    }
+
+    .hero h1 {
+      margin: 24px auto 18px;
+      max-width: 980px;
+      font-size: clamp(46px, 8vw, 104px);
+      line-height: 0.92;
+      letter-spacing: -0.08em;
+      text-transform: uppercase;
+      animation: fadeUp 0.7s ease 0.08s both;
+    }
+
+    .hero h1 span {
+      display: block;
+      color: transparent;
+      -webkit-text-stroke: 2px var(--pink);
+      text-shadow: 0 0 28px rgba(242, 5, 135, 0.26);
+    }
+
+    .hero p {
+      max-width: 710px;
+      margin: 0 auto 34px;
+      color: var(--muted);
+      font-size: clamp(18px, 2vw, 24px);
+      line-height: 1.55;
+      animation: fadeUp 0.7s ease 0.16s both;
+    }
+
+    .button-row {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      animation: fadeUp 0.7s ease 0.24s both;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 52px;
+      padding: 0 24px;
+      border-radius: 999px;
+      text-decoration: none;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      border: 1px solid var(--line);
+      transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--pink), #ff4dbc);
+      box-shadow: 0 16px 40px rgba(242, 5, 135, 0.28);
+    }
+
+    .btn-secondary { background: rgba(255,255,255,0.06); }
+    .btn:hover { transform: translateY(-3px); }
+    .btn-secondary:hover { background: rgba(126, 226, 27, 0.12); }
+
+    .section {
+      padding: 70px 0;
+    }
+
+    .section-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 24px;
+      margin-bottom: 28px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      font-size: clamp(32px, 5vw, 64px);
+      line-height: 0.95;
+      letter-spacing: -0.05em;
+      text-transform: uppercase;
+    }
+
+    .section-title p {
+      max-width: 420px;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .robot-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 24px;
+    }
+
+    .robot-card {
+      position: relative;
+      min-height: 460px;
+      overflow: hidden;
+      border-radius: var(--radius);
+      border: 1px solid var(--line);
+      background: linear-gradient(140deg, rgba(242, 5, 135, 0.20), rgba(255,255,255,0.045) 48%, rgba(126, 226, 27, 0.12));
+      box-shadow: var(--shadow);
+      transform: translateY(18px);
+      opacity: 0;
+      animation: fadeUp 0.8s ease both;
+    }
+
+    .robot-card:nth-child(2) { animation-delay: 0.08s; }
+    .robot-card:nth-child(3) { animation-delay: 0.16s; }
+    .robot-card:nth-child(4) { animation-delay: 0.24s; }
+
+    .robot-card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 78% 30%, rgba(255,255,255,0.12), transparent 24%);
+      pointer-events: none;
+    }
+
+    .card-inner {
+      position: relative;
+      z-index: 1;
+      height: 100%;
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 8px;
+      padding: 34px;
+    }
+
+    .number {
+      color: var(--green);
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      font-size: 18px;
+      margin-bottom: 44px;
+    }
+
+    .robot-card h3 {
+      margin: 0 0 12px;
+      font-size: clamp(30px, 4vw, 48px);
+      line-height: 0.95;
+      text-transform: uppercase;
+      letter-spacing: -0.05em;
+    }
+
+    .robot-card .tagline {
+      color: var(--pink);
+      text-transform: uppercase;
+      font-size: 16px;
+      line-height: 1.25;
+      font-weight: 900;
+      letter-spacing: 0.02em;
+    }
+
+    .robot-image-wrap {
+      display: flex;
+      align-items: end;
+      justify-content: center;
+      min-width: 0;
+    }
+
+    .robot-image {
+      max-width: 100%;
+      max-height: 330px;
+      object-fit: contain;
+      filter: drop-shadow(0 24px 32px rgba(0,0,0,0.45));
+      transition: transform 0.45s ease;
+    }
+
+    .robot-card:hover .robot-image { transform: scale(1.05) rotate(-1deg); }
+
+    .hover-panel {
+      position: absolute;
+      inset: 0;
+      z-index: 3;
+      padding: 34px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      background: rgba(0, 0, 0, 0.90);
+      backdrop-filter: blur(14px);
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 0.32s ease, transform 0.32s ease;
+    }
+
+    .robot-card:hover .hover-panel,
+    .robot-card:focus-within .hover-panel {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .hover-panel h4 {
+      margin: 0 0 14px;
+      font-size: 34px;
+      text-transform: uppercase;
+      letter-spacing: -0.05em;
+    }
+
+    .hover-panel p {
+      margin: 0 0 20px;
+      max-width: 620px;
+      color: var(--muted);
+      line-height: 1.55;
+      font-size: 17px;
+    }
+
+    .info-columns {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 22px;
+    }
+
+    .info-box {
+      border-top: 1px solid var(--line);
+      padding-top: 18px;
+    }
+
+    .info-box strong {
+      display: block;
+      color: var(--green);
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-size: 13px;
+    }
+
+    .info-box ul {
+      margin: 0;
+      padding-left: 18px;
+      color: #f2f2f2;
+      line-height: 1.75;
+    }
+
+    .why-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+
+    .why-card {
+      padding: 24px;
+      min-height: 170px;
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background: var(--panel);
+    }
+
+    .why-card .icon {
+      font-size: 34px;
+      margin-bottom: 14px;
+    }
+
+    .why-card h3 {
+      margin: 0 0 10px;
+      text-transform: uppercase;
+      letter-spacing: -0.02em;
+    }
+
+    .why-card p { margin: 0; color: var(--muted); line-height: 1.55; }
+
+    .contact {
+      display: grid;
+      grid-template-columns: 0.85fr 1.15fr;
+      gap: 26px;
+      align-items: stretch;
+    }
+
+    .contact-panel,
+    form {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--panel);
+      box-shadow: var(--shadow);
+      padding: 34px;
+    }
+
+    .contact-panel h2 {
+      margin: 0 0 16px;
+      font-size: clamp(34px, 5vw, 64px);
+      line-height: 0.95;
+      letter-spacing: -0.06em;
+      text-transform: uppercase;
+    }
+
+    .contact-panel p { color: var(--muted); line-height: 1.7; }
+
+    .contact-detail {
+      margin-top: 28px;
+      display: grid;
+      gap: 12px;
+      color: var(--muted);
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      color: #f4f4f4;
+      font-weight: 800;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .field-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    input, textarea, select {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: rgba(0,0,0,0.34);
+      color: white;
+      padding: 15px 16px;
+      font: inherit;
+      outline: none;
+    }
+
+    textarea { min-height: 140px; resize: vertical; }
+    input:focus, textarea:focus, select:focus { border-color: var(--green); }
+
+    .form-row { margin-bottom: 16px; }
+
+    .submit {
+      width: 100%;
+      border: none;
+      cursor: pointer;
+      margin-top: 8px;
+    }
+
+    .small-note {
+      margin: 14px 0 0;
+      color: #a5a5a5;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    footer {
+      padding: 36px 0;
+      color: var(--muted);
+      border-top: 1px solid var(--line);
+      text-align: center;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(22px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 940px) {
+      .nav { align-items: flex-start; gap: 18px; }
+      .nav-links { display: none; }
+      .section-title { display: block; }
+      .section-title p { margin-top: 14px; }
+      .robot-grid, .contact, .why-grid { grid-template-columns: 1fr; }
+      .robot-card { min-height: 500px; }
+      .card-inner { grid-template-columns: 1fr; }
+      .number { margin-bottom: 18px; }
+      .robot-image-wrap { min-height: 220px; }
+      .robot-image { max-height: 260px; }
+    }
+
+    @media (max-width: 620px) {
+      .container { width: min(100% - 24px, 1180px); }
+      .hero { min-height: auto; padding: 50px 0 42px; }
+      .hero h1 span { -webkit-text-stroke: 1.4px var(--pink); }
+      .section { padding: 48px 0; }
+      .robot-card { min-height: 560px; border-radius: 24px; }
+      .card-inner, .hover-panel, .contact-panel, form { padding: 24px; }
+      .info-columns, .field-grid { grid-template-columns: 1fr; }
+      .hover-panel { overflow-y: auto; justify-content: flex-start; }
+      .btn { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <header class="container nav">
+    <a href="#top" aria-label="Arcade Strange home">
+      <img class="logo" src="assets/arcade-strange-logo.png" alt="Arcade Strange logo" />
+    </a>
+    <nav class="nav-links" aria-label="Main navigation">
+      <a href="#robots">Robots</a>
+      <a href="#why">Why us</a>
+      <a href="#contact">Enquire</a>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="container">
+        <div class="eyebrow">Robots • Experiences • Memories</div>
+        <h1>Interactive Robots <span>for Events</span></h1>
+        <p>Mind-control, gesture-control and AI-powered brand activations designed to pull crowds, create content and make your event unforgettable.</p>
+        <div class="button-row">
+          <a class="btn btn-primary" href="#contact">Request a Quote</a>
+          <a class="btn btn-secondary" href="#robots">Explore Robots</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="robots">
+      <div class="container">
+        <div class="section-title">
+          <h2>Main Robots</h2>
+          <p>Hover over each card to reveal the event use cases, benefits and engagement outcomes.</p>
+        </div>
+
+        <div class="robot-grid">
+          <article class="robot-card" tabindex="0">
+            <div class="card-inner">
+              <div>
+                <div class="number">01</div>
+                <h3>Homer</h3>
+                <div class="tagline">Mind-Controlled<br />drinks-pouring robot</div>
+              </div>
+              <div class="robot-image-wrap">
+                <img class="robot-image" src="assets/homer.png" alt="Homer mind-controlled drinks-pouring robot" />
+              </div>
+            </div>
+            <div class="hover-panel">
+              <h4>Homer</h4>
+              <p>Turn drink service into a crowd-pulling experience. Guests use brainwave focus to activate Homer and pour their own drink.</p>
+              <div class="info-columns">
+                <div class="info-box"><strong>Perfect for</strong><ul><li>Conferences</li><li>Exhibitions</li><li>Corporate events</li></ul></div>
+                <div class="info-box"><strong>Creates</strong><ul><li>Queue-building engagement</li><li>Social media moments</li><li>+90–150% footfall</li></ul></div>
+              </div>
+            </div>
+          </article>
+
+          <article class="robot-card" tabindex="0">
+            <div class="card-inner">
+              <div>
+                <div class="number">02</div>
+                <h3>MindVault</h3>
+                <div class="tagline">Mind-Controlled<br />Giveaway Safe</div>
+              </div>
+              <div class="robot-image-wrap">
+                <img class="robot-image" src="assets/mindvault.png" alt="MindVault mind-controlled giveaway safe" />
+              </div>
+            </div>
+            <div class="hover-panel">
+              <h4>MindVault</h4>
+              <p>Participants use concentration to unlock the safe and win prizes, creating a memorable branded challenge.</p>
+              <div class="info-columns">
+                <div class="info-box"><strong>Perfect for</strong><ul><li>Lead generation</li><li>Product launches</li><li>Exhibition stands</li></ul></div>
+                <div class="info-box"><strong>Creates</strong><ul><li>Data capture opportunities</li><li>Competitive gameplay</li><li>High visitor dwell time</li></ul></div>
+              </div>
+            </div>
+          </article>
+
+          <article class="robot-card" tabindex="0">
+            <div class="card-inner">
+              <div>
+                <div class="number">03</div>
+                <h3>Matilda</h3>
+                <div class="tagline">Gesture-Controlled<br />Champagne experience</div>
+              </div>
+              <div class="robot-image-wrap">
+                <img class="robot-image" src="assets/matilda.png" alt="Matilda gesture-controlled champagne experience" />
+              </div>
+            </div>
+            <div class="hover-panel">
+              <h4>Matilda</h4>
+              <p>Guests control champagne pouring using simple hand gestures for a premium and futuristic serving experience.</p>
+              <div class="info-columns">
+                <div class="info-box"><strong>Perfect for</strong><ul><li>VIP receptions</li><li>Luxury brands</li><li>Awards ceremonies</li></ul></div>
+                <div class="info-box"><strong>Creates</strong><ul><li>Premium brand association</li><li>Photo opportunities</li><li>Elegant guest interaction</li></ul></div>
+              </div>
+            </div>
+          </article>
+
+          <article class="robot-card" tabindex="0">
+            <div class="card-inner">
+              <div>
+                <div class="number">04</div>
+                <h3>Gamified Vending</h3>
+                <div class="tagline">AI-Powered Interactive<br />Vending Experience</div>
+              </div>
+              <div class="robot-image-wrap">
+                <img class="robot-image" src="assets/gamified-vending.png" alt="AI-powered interactive vending experience" />
+              </div>
+            </div>
+            <div class="hover-panel">
+              <h4>Gamified Vending</h4>
+              <p>An AI host guides guests through branded challenges and rewards them with prizes or product samples.</p>
+              <div class="info-columns">
+                <div class="info-box"><strong>Perfect for</strong><ul><li>Product sampling</li><li>Retail activations</li><li>Experiential marketing</li></ul></div>
+                <div class="info-box"><strong>Creates</strong><ul><li>Personalised interactions</li><li>Data collection opportunities</li><li>Scalable engagement</li></ul></div>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="why">
+      <div class="container">
+        <div class="section-title">
+          <h2>Why Choose Arcade Strange?</h2>
+          <p>Designed for premium events, exhibitions, product launches and unforgettable branded experiences.</p>
+        </div>
+        <div class="why-grid">
+          <div class="why-card"><div class="icon">🧠</div><h3>Unique Tech</h3><p>Mind-control, gesture-control and AI interactions that guests remember.</p></div>
+          <div class="why-card"><div class="icon">🎨</div><h3>Fully Branded</h3><p>Experiences can be tailored to your campaign, sponsor or event theme.</p></div>
+          <div class="why-card"><div class="icon">📸</div><h3>Content Ready</h3><p>Built to create queues, conversations and shareable moments.</p></div>
+          <div class="why-card"><div class="icon">🌍</div><h3>Event Support</h3><p>Suitable for conferences, exhibitions, private events and brand activations.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="contact">
+      <div class="container contact">
+        <div class="contact-panel">
+          <h2>Let’s Create Something Unforgettable</h2>
+          <p>Tell us about your event and we’ll suggest the best robot experience for your audience, venue and brand goals.</p>
+          <div class="contact-detail">
+            <span>📍 10 Chapel Place, London, EC2A 3DQ</span>
+            <span>✉️ hello@arcadestrange.com</span>
+            <span>© Arcade Strange Ltd. Company Number: 15283089</span>
+          </div>
+        </div>
+
+        <form action="https://formsubmit.co/hello@arcadestrange.com" method="POST">
+          <input type="hidden" name="_subject" value="New Arcade Strange Website Enquiry" />
+          <input type="hidden" name="_captcha" value="false" />
+          <div class="field-grid">
+            <div class="form-row"><label for="name">Name</label><input id="name" name="name" type="text" placeholder="Your name" required /></div>
+            <div class="form-row"><label for="email">Email</label><input id="email" name="email" type="email" placeholder="you@company.com" required /></div>
+          </div>
+          <div class="field-grid">
+            <div class="form-row"><label for="company">Company</label><input id="company" name="company" type="text" placeholder="Company name" /></div>
+            <div class="form-row"><label for="robot">Robot</label><select id="robot" name="robot"><option>Not sure yet</option><option>Homer</option><option>MindVault</option><option>Matilda</option><option>Gamified Vending</option><option>Multiple robots</option></select></div>
+          </div>
+          <div class="form-row"><label for="event-date">Event Date</label><input id="event-date" name="event_date" type="date" /></div>
+          <div class="form-row"><label for="message">Message</label><textarea id="message" name="message" placeholder="Tell us about your event, location, audience size and goals." required></textarea></div>
+          <button class="btn btn-primary submit" type="submit">Send Enquiry</button>
+          <p class="small-note">For GitHub Pages, this form uses FormSubmit. The first submission may ask you to confirm the receiving email address.</p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">Arcade Strange Ltd. — Interactive Robots for Events & Brand Activations</div>
+  </footer>
+</body>
+</html>
