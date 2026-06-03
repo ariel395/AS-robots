@@ -501,6 +501,87 @@
       .hover-panel { overflow-y: auto; justify-content: flex-start; }
       .btn { width: 100%; }
     }
+
+   .video-btn {
+  position: absolute;
+  right: 28px;
+  bottom: 28px;
+  z-index: 5;
+  padding: 13px 20px;
+  border: none;
+  border-radius: 999px;
+  background: var(--pink);
+  color: white;
+  font-weight: 900;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+}
+
+.video-btn:hover {
+  background: var(--green);
+  color: black;
+}
+
+.video-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 999999;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.video-modal.active {
+  display: flex;
+}
+
+.video-modal-bg {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.82);
+  backdrop-filter: blur(10px);
+}
+
+.video-modal-content {
+  position: relative;
+  z-index: 2;
+  width: min(900px, 92vw);
+  background: #000;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 30px 100px rgba(0,0,0,0.65);
+  border: 1px solid rgba(255,255,255,0.18);
+}
+
+.video-modal-content video {
+  width: 100%;
+  display: block;
+  background: #000;
+}
+
+.video-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  z-index: 3;
+  width: 42px;
+  height: 42px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(0,0,0,0.75);
+  color: white;
+  font-size: 30px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.video-close:hover {
+  background: var(--pink);
+}
+    
   </style>
 </head>
 <body>
