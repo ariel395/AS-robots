@@ -262,7 +262,7 @@
 
     .robot-image-wrap {
       display: flex;
-      align-items: centre;
+      align-items: center;
       justify-content: center;
       min-width: 0;
       height: 340px;
@@ -553,9 +553,9 @@
               <div class="info-columns">
                 <div class="info-box"><strong>Perfect for</strong><ul><li>Conferences</li><li>Exhibitions</li><li>Corporate events</li></ul></div>
                 <div class="info-box"><strong>Creates</strong><ul><li>Queue-building engagement</li><li>Social media moments</li><li>+90–150% footfall</li></ul></div>
-                <a class="video-btn" href="https://www.youtube.com/watch?v=H9wBGmr2DDA" target="_blank">
-  ▶ Watch Video
-</a>
+                 <button class="video-btn" data-video="homer.mp4">
+  ▶ Watch Demo
+</button>
               </div>
             </div>
           </article>
@@ -577,9 +577,9 @@
               <div class="info-columns">
                 <div class="info-box"><strong>Perfect for</strong><ul><li>Lead generation</li><li>Product launches</li><li>Exhibition stands</li></ul></div>
                 <div class="info-box"><strong>Creates</strong><ul><li>Data capture opportunities</li><li>Competitive gameplay</li><li>High visitor dwell time</li></ul></div>
-                 <a class="video-btn" href="https://www.youtube.com/watch?v=影片id" target="_blank">
-  ▶ Watch Video
-</a>
+                <button class="video-btn" data-video="mindvault.mp4">
+  ▶ Watch Demo
+</button>
               
               </div>
             </div>
@@ -602,9 +602,9 @@
               <div class="info-columns">
                 <div class="info-box"><strong>Perfect for</strong><ul><li>VIP receptions</li><li>Luxury brands</li><li>Awards ceremonies</li></ul></div>
                 <div class="info-box"><strong>Creates</strong><ul><li>Premium brand association</li><li>Photo opportunities</li><li>Elegant guest interaction</li></ul></div>
-                <a class="video-btn" href="https://www.youtube.com/watch?v=影片id" target="_blank">
-  ▶ Watch Video
-</a>
+               <button class="video-btn" data-video="matilda.mp4">
+  ▶ Watch Demo
+</button>
               </div>
             </div>
           </article>
@@ -626,9 +626,9 @@
               <div class="info-columns">
                 <div class="info-box"><strong>Perfect for</strong><ul><li>Product sampling</li><li>Retail activations</li><li>Experiential marketing</li></ul></div>
                 <div class="info-box"><strong>Creates</strong><ul><li>Personalised interactions</li><li>Data collection opportunities</li><li>Scalable engagement</li></ul></div>
-               <a class="video-btn" href="https://www.youtube.com/watch?v=影片id" target="_blank">
-  ▶ Watch Video
-</a>
+                <button class="video-btn" data-video="gamified-vending.mp4">
+  ▶ Watch Demo
+</button>
               </div>
             </div>
           </article>
@@ -685,5 +685,46 @@
   <footer>
     <div class="container">Arcade Strange Ltd. — Interactive Robots for Events & Brand Activations</div>
   </footer>
+
+  <div class="video-modal" id="videoModal">
+  <div class="video-modal-bg"></div>
+  <div class="video-modal-content">
+    <button class="video-close" id="videoClose">×</button>
+    <video id="modalVideo" controls playsinline>
+      <source src="" type="video/mp4">
+    </video>
+  </div>
+</div>
+
+<script>
+const videoButtons = document.querySelectorAll('.video-btn');
+const videoModal = document.getElementById('videoModal');
+const modalVideo = document.getElementById('modalVideo');
+const videoClose = document.getElementById('videoClose');
+const videoBg = document.querySelector('.video-modal-bg');
+
+videoButtons.forEach(button => {
+  button.addEventListener('click', function(event) {
+    event.stopPropagation();
+    const videoSrc = this.getAttribute('data-video');
+    modalVideo.querySelector('source').src = videoSrc;
+    modalVideo.load();
+    modalVideo.play();
+    videoModal.classList.add('active');
+  });
+});
+
+function closeVideoModal() {
+  modalVideo.pause();
+  modalVideo.currentTime = 0;
+  modalVideo.querySelector('source').src = '';
+  modalVideo.load();
+  videoModal.classList.remove('active');
+}
+
+videoClose.addEventListener('click', closeVideoModal);
+videoBg.addEventListener('click', closeVideoModal);
+</script>
+  
 </body>
 </html>
